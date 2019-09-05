@@ -1,4 +1,9 @@
 class Solution {
+    /*
+     *  Backtracking + Pruning
+     *  For each Parentheses,we can add or not add this to result. 
+     *  We visit all possibilities and add valid result to res.
+     */
 public:
     int min = INT_MAX;
     vector<string> removeInvalidParentheses(string s) {
@@ -13,7 +18,7 @@ public:
         int l=0, r=0;
         isValid(temp, l, r);
         /*
-         * Prunning:
+         * Pruning:
          * 1. If right >left (temp is not valid)
          * 2. If the total number of removed parentheses in temo is already larger than removed parentheses in the global optimal.
          */
