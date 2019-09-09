@@ -26,6 +26,7 @@ public:
                 pq.push(n);
             }
         }
+        // Create dummy node on stack.
         ListNode head(-1);
         ListNode *cur = &head;
         
