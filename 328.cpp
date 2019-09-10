@@ -14,6 +14,37 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
+
+class Solution {
+public:
+    ListNode* oddEvenList(ListNode* head) {
+        if (head == nullptr)
+            return nullptr;
+        ListNode oddH(-1), evenH(-1);
+        ListNode *oddcur = &oddH, *evencur = &evenH;
+        ListNode *cur = head, *next = cur->next;
+        ListNode **curHead = &oddcur;
+        
+        int i=0;
+        while(cur != nullptr) {
+            ++i;
+            if (i%2 == 1) {
+                curHead = &oddcur;
+            } else {
+                curHead = &evencur;
+            }
+            next = cur->next;
+            (*curHead)->next = cur;
+            cur->next = nullptr;
+            cur = next;
+            (*curHead) = (*curHead)->next;
+        }
+        oddcur->next = evenH.next;
+        return oddH.next;
+    }
+};
+
+/*
 class Solution {
 public:
     ListNode* oddEvenList(ListNode* head) {
@@ -45,3 +76,5 @@ public:
         return oddH.next;
     }
 };
+*/
+
