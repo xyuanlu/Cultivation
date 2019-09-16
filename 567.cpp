@@ -6,6 +6,12 @@
  
  /*
   * This is a easy version of Substring with Concatenation of All Words
+  *
+  * 1. Compute a RefMap (vector<int>(26)) for all chars in S1. The map wont be changed after being computed.
+  * 2. Starting from each idx in s2 (start), 'idx' ++ and compute and update a new RefMap m and 'count;
+  *    1). If memo[s2[i-'a']] already reached its needed number but count<0 start from 'start+1'
+  *    2). If memo[s2[i-'a']] haven't reached its needed number, memo[s2[i-'a']]++ and update count
+  *        After count is updated, see if we can return true. 
   */
  
 class Solution {
