@@ -11,7 +11,7 @@
  * How many total friend requests are made?
  */
  
- class Solution {
+class Solution {
 public:
     int numFriendRequests(vector<int>& ages) {
         /*
