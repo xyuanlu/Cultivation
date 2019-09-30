@@ -24,7 +24,7 @@ public:
         if(t%2 !=0) return false;
         t = t/2;
         
-        vector<vector<bool>> m(nums.size(), vector<bool>(max(nums[0], t)+1, false));
+        /*vector<vector<bool>> m(nums.size(), vector<bool>(max(nums[0], t)+1, false));
         m[0][0] = true;
         m[0][nums[0]] = true;
         for(int i=1; i<nums.size(); ++i) {
@@ -36,6 +36,16 @@ public:
             }
         }
         
-        return m[nums.size()-1][t];
+        return m[nums.size()-1][t];*/
+        vector<int> m(t+1, 0);
+        m[0] = true;
+        for(int i=0; i<nums.size(); ++i) {
+            for(int j=t; j>=0; --j) {
+                if(m[j] &&j+nums[i]>=0 && j+nums[i]<=t ) {
+                    m[j+nums[i]] = true;
+                }
+            }
+        }
+        return m[t];
     }
 };
