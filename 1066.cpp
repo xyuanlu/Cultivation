@@ -23,6 +23,10 @@ public:
         int res = 10*2*1000;
         
         int v=0, cur=0;
+        
+        // There is no such thing as BT + memo. No updating res and cur in dfs+memo.
+        // BT is only for tree stucture subproblem 
+        // memo if for problems with duplicats subproblems.
         helper(workers, bikes, 0, v); //, res, cur);
         // No need to use res and cur. 
         return m[0];
@@ -41,7 +45,9 @@ public:
             return 0;
         }
 
-        //if (cur>res)     // <<<<<----- This is WRONG, dont mixing subproblem with total
+        // This is wrong. This is WRONG, dont mixing subproblem with total.
+        // We can not assume we will not need v' again. 
+        //if (cur>res)     // <<<<<----- 
         //    return cur;
         
         if (m.find(com(widx, v))!=m.end()) {
