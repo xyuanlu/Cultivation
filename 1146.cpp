@@ -3,11 +3,12 @@
  */
 class SnapshotArray {
 public:
-
-    vector<int> cur;
+    // do it like vm linked clone
+    vector<int> cur;    
     vector<map<int, int>> sp;
     int ver;
     int len;
+    // diety bit
     unordered_set<int> changed;
     
     SnapshotArray(int length) {
