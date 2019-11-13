@@ -8,7 +8,45 @@
  * All numbers (including target) will be positive integers.
  * The solution set must not contain duplicate combinations.
  */
- 
+ class Solution {
+public:
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        vector<vector<int>> res;
+        vector<int> temp;
+        sort(candidates.begin(), candidates.end());
+        
+        
+        helper(candidates, target, temp, 0, res);
+        
+        return res;
+    }
+    
+    void helper(vector<int>& candidates, int target, vector<int>& temp,
+                int idx, vector<vector<int>>& res) {
+        //for (auto e : temp) {
+        //    cout << e << " ";
+        //}
+        //cout << " XXX " << idx << " " << target << endl;
+        if (idx == candidates.size()) {
+            if (target ==0) 
+                res.push_back(vector<int>(temp));
+            return;
+        }
+        
+        if (target<0)
+            return;
+        
+        if (temp.empty() || candidates[idx] != temp.back()) {
+            helper(candidates,target, temp, idx+1, res);
+        }
+        temp.push_back(candidates[idx]);
+        helper(candidates,target-candidates[idx], temp, idx+1, res);
+        temp.pop_back();
+    }
+};
+
+
+
 class Solution {
 public:
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
