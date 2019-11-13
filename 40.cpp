@@ -9,7 +9,40 @@
  * The solution set must not contain duplicate combinations.
  */
  
- class Solution {
+class Solution {
+public:
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        vector<vector<int>> res;
+        vector<int> temp;
+        sort(candidates.begin(), candidates.end());
+        
+        
+        helper(candidates, target, temp, 0, res);
+        
+        return res;
+    }
+    
+    void helper(vector<int>& candidates, int target, vector<int>& temp,
+                int idx, vector<vector<int>>& res) {
+        if (target ==0) {
+            res.push_back(vector<int>(temp));
+            return;
+        }
+        
+        if (target<0)
+            return;
+        
+        for(int i=idx; i<candidates.size(); ++i) {
+            if (i>idx && candidates[i]==candidates[i-1])
+                continue;
+            temp.push_back(candidates[i]);
+            helper(candidates,target-candidates[i], temp, i+1, res);
+            temp.pop_back();
+        }
+    }
+};
+
+class Solution {
 public:
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
         // backtrack
