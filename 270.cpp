@@ -16,6 +16,8 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+
+// recursibely
 class Solution {
 public:
     int closestValue(TreeNode* root, double target) {
@@ -36,5 +38,41 @@ public:
                                 t: root->val;
         }
         return root->val;
+    }
+};
+
+// using stack
+class Solution {
+public:
+    int closestValue(TreeNode* root, double target) {
+        stack<TreeNode*> s;
+        double epsl = 0.00001;
+        double minD = DBL_MAX;
+        // s.top is the cloest
+        while(root!=nullptr) {
+            s.push(root);
+            //cout<<root->val<<endl;
+            minD = min(minD, abs(root->val - target));
+            if (abs(root->val - target) < epsl) {
+                break;
+            } else if (root->val - target > epsl) {  // root > target
+                root = root->left;
+            } else {
+                root = root->right;
+            }
+        }
+       // cout<<endl<<minD<<endl;
+        while(!s.empty()) {
+            if (abs(abs(s.top()->val - target) - minD)> epsl) {
+                /*cout<<abs(s.top()->val - target)<<" "<<minD<<
+                    " "<<abs(abs(s.top()->val - target) - minD)<<endl;
+                cout<<"pop"<<s.top()->val<<endl;*/
+                s.pop();
+            } else {
+                break;
+            }
+        }
+        
+        return s.top()->val;
     }
 };
