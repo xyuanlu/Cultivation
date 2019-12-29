@@ -9,7 +9,137 @@
  * Challenge: Perform all these in O(1) time complexity.
  */
  
- class AllOne {
+
+class AllOne {
+    /*
+      list:
+      [ 1 ] <-> [ 2 ] <-> [ 3 ]
+      [ a, b]   [c]       [d]
+           ^
+           |----
+      map: |   |
+      [a ]     ----[b]     [c]  [d]  ... 
+      [ptr to 
+      'a' in list]
+    
+    */
+public:
+    /** Initialize your data structure here. */
+    AllOne() {
+        
+    }
+    
+    /** Inserts a new key <Key> with value 1. Or increments an existing key by 1. */
+    void inc(string key) {
+        if (_m.find(key) == _m.end()) { 
+            // new elem
+            if (_list.size()==0 || _list.front().value!=1) {
+                _list.push_front({1, {key}}); 
+            } else {
+                _list.front().keys.insert(key);
+            }
+            _m[key] = _list.begin();            
+        } else {
+            // inc existing elem
+            auto it = _m[key];
+            int cur = it->value;
+            auto it2 = it; 
+            std::advance(it2, 1);
+            it->keys.erase(key);
+            // if count==0 erase
+            if (it->keys.size()==0) {
+                it2 = _list.erase(it);
+            }
+            // add in the next node
+            if (it2!=_list.end() && it2->value == cur+1) {
+                it2->keys.insert(key);
+                _m[key] =it2;
+            } else {
+                //add new node
+                auto it3 = _list.insert(it2, {cur+1, {key}});
+                _m[key] =it3;
+            }
+            
+        }
+    }
+    
+    /** Decrements an existing key by 1. If Key's value is 1, remove it from the data structure. */
+    void dec(string key) {
+        if (_m.find(key) == _m.end())
+            return;
+        
+        auto it = _m[key];
+        int cur = it->value;
+        it->keys.erase(key);
+        if (it->keys.size()==0) {
+            it = _list.erase(it);
+        }
+        if (cur==1) {
+            _m.erase(key);
+            //cout<<"VVV"<<endl;
+            return;
+        }
+            
+        // add in the prev node
+        if (it!=_list.begin()) {
+            auto it2 = it;
+            it2--;
+            if (it2->value == cur-1) {
+                it2->keys.insert(key);
+                _m[key] =it2;
+                //cout<<"VV"<<endl;
+                return;
+            }
+        }
+        //add new node
+        auto it3 = _list.insert(it, {cur-1, {key}});
+        cout<<it3->value<<endl;
+        _m[key] = it3;
+    }
+    
+    /** Returns one of the keys with maximal value. */
+    string getMaxKey() {
+        if (_list.size()==0) return "";
+        else {
+            //cout<<"max "<<_list.back().value<<endl;
+            return *(_list.back().keys.begin());
+        }
+    }
+    
+    /** Returns one of the keys with Minimal value. */
+    string getMinKey() {
+        if (_list.size()==0) return "";
+        else {
+            //cout<<"min "<<_list.front().value<<endl;
+            return *(_list.front().keys.begin());
+        }
+    }
+    
+    class Node{
+    public:
+        int value;
+        unordered_set<string> keys;
+    };
+    
+private:
+    std::list<Node> _list;
+    unordered_map<string, list<Node>::iterator> _m;
+    
+};
+
+/**
+ * Your AllOne object will be instantiated and called as such:
+ * AllOne* obj = new AllOne();
+ * obj->inc(key);
+ * obj->dec(key);
+ * string param_3 = obj->getMaxKey();
+ * string param_4 = obj->getMinKey();
+ */
+
+
+
+// Unordered Map is not O(1)
+class AllOneNotReally {
 public:
     unordered_map<string, int> kv;
     map<int, unordered_set<string>> vk;
