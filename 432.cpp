@@ -138,7 +138,7 @@ private:
 
 
 
-// Unordered Map is not O(1)
+// Map is not O(1)
 class AllOneNotReally {
 public:
     unordered_map<string, int> kv;
