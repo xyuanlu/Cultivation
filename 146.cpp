@@ -2,7 +2,7 @@
  * 146. LRU Cache
  */
  
- class LRUCache {
+class LRUCache {
 public:
     class Node{
     public:
@@ -97,6 +97,67 @@ public:
             cur = next;
         }
         
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
+
+
+
+// Or use std::list, a double linked list
+
+class LRUCache {
+public:
+    class P{
+    public:
+        int k;
+        int v;
+    };
+    
+    LRUCache(int capacity) {
+        C = capacity;
+    }
+    
+    int get(int key) {
+        if (m.find(key) == m.end())
+            return -1;
+        int res = (*m[key]).v;
+        l.erase(m[key]);
+        l.push_front({key, res});
+        //cout<<res<<endl;
+        m[key] = l.begin();
+        return res;
+    }
+    
+    void put(int key, int value) {
+        if (m.find(key) != m.end()){
+            m[key]->v = value;
+            get(key);
+            return;
+        }
+        if(m.size() == C) {
+            removeBack();
+        }
+        l.push_front({key, value});
+        m[key] = l.begin();
+    }
+    
+private:
+    // key, val 
+    std::list<P> l;
+    // key, iterator
+    unordered_map<int, std::list<P>::iterator> m;
+    int C;
+    
+    void removeBack() {
+        int key = l.back().k;
+        m.erase(key);
+        l.pop_back();
     }
 };
 
