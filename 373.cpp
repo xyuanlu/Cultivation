@@ -8,6 +8,49 @@
 
 class Solution {
 public:
+    class P{
+    public:
+        // idx in first and second vector
+        int a;
+        int b;
+    };
+    
+    vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
+        if (k==0 || nums1.size()==0 || nums2.size()==0) {
+            return vector<vector<int>>();
+        }
+        
+        // pq is sorted from larger to small by default.
+        auto comp = [&nums1, &nums2] (P& p1, P& p2) {
+            return nums1[p1.a] + nums2[p1.b] > nums1[p2.a] + nums2[p2.b];
+            
+        };
+        priority_queue<P, vector<P>, decltype(comp)> pq(comp);
+        pq.push({0, 0});
+        
+        vector<vector<int>> res;
+        while(res.size()<k) {
+            P t = pq.top();
+            pq.pop();
+            res.push_back({nums1[t.a], nums2[t.b]});
+            if (t.a < nums1.size()-1) {
+                pq.push({t.a+1, t.b});
+            }
+            if (t.a==0 && t.b < nums2.size()-1) {
+                pq.push({t.a, t.b+1});
+            }
+            if (t.a == nums1.size()-1 && t.b == nums2.size()-1) {
+                break;
+            }
+        }
+        return res;
+        
+    }
+};
+
+/*
+class Solution {
+public:
     class Pair {
     public:
         int x;
@@ -49,7 +92,7 @@ public:
         return res;
         
     }
-    
+    */
     
     /*vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
         priority_queue<Pair> pq;
