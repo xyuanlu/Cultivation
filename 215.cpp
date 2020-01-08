@@ -96,7 +96,7 @@ public:
         swap(nums, r, startIdx);
         return startIdx;
     }
-    
+     
     void swap(vector<int>& nums, int l, int r) {
         int t = nums[l];
         nums[l] = nums[r];
