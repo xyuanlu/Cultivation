@@ -32,6 +32,55 @@
  *     const vector<NestedInteger> &getList() const;
  * };
  */
+
+
+
+
+
+
+class NestedIterator {
+public:
+    /*
+     * store the vector reversely
+     * next would be the last element
+     */
+    vector<NestedInteger> m;
+    NestedIterator(vector<NestedInteger> &nestedList) {
+        m = nestedList;
+        reverse(m.begin(), m.end());
+        helper();
+        //cout<<m.size()<<endl;
+    }
+
+    int next() {
+        int res = -1;
+        res = m.back().getInteger();
+        m.pop_back();
+        helper();
+        //cout<<res<<" "<<m.size()<<endl;
+        return res;
+    }
+
+    bool hasNext() {
+        return m.size()!=0;
+    }
+    
+    void helper() {
+        while(!m.empty() && !m.back().isInteger()) {
+            vector<NestedInteger> t = m.back().getList();
+            m.pop_back();
+            if (t.size()!=0)
+                m.insert(m.end(), t.rbegin(), t.rend());
+        }
+    }
+};
+
+/**
+ * Your NestedIterator object will be instantiated and called as such:
+ * NestedIterator i(nestedList);
+ * while (i.hasNext()) cout << i.next();
+ */
+
 class NestedIterator {
     /*
      * Push and pop in next(). 
