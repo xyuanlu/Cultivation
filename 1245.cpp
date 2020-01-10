@@ -20,7 +20,7 @@ public:
             m[edges[i][1]].push_back(edges[i][0]);
         }
         vector<int> visited(edges.size()+1, false);
-        //visited.insert(1);
+        visited[0] = true;
         helper(0, m, visited);
         return res;
         
@@ -31,13 +31,13 @@ public:
                vector<int>& visited) {
         int max = 0, secondMax = 0;
         //cout<<curNode<<endl;
-        visited[curNode] = true;
+        //visited[curNode] = true;
         for(int i=0; i<m[curNode].size(); ++i) {
             int next = m[curNode][i];
             if (visited[next]) {
                 continue;
             }
-            
+            visited[next] = true;
             int d = helper(next, m, visited)+1;
             if (d>max) {
                 secondMax = max;
@@ -45,6 +45,7 @@ public:
             } else if (d>secondMax) {
                 secondMax = d;
             }
+            visited[next] = false;
         }
         //cout<<curNode<<" "<<max<<" "<<secondMax<<endl;
         res = std::max(res, max+secondMax);
