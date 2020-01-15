@@ -13,6 +13,39 @@
 
 class Solution {
 public:
+    int leastInterval(vector<char>& tasks, int n) {
+        
+        vector<int> m(26, 0);
+        for(char c:tasks) {
+            m[c-'A'] ++;
+        }
+        
+        // sort from largest to min
+        sort(m.begin(), m.end(), greater<int>());
+        
+        // At most need (MaxNum-1)*n slot (the char space is not included)
+        int initslot = (m[0]-1) *n;
+        
+        for(int i=1; i<26; ++i) {
+            int slot;
+            if (m[i] == m[0]) {
+                slot = max(0, initslot - (m[i]-1)); 
+            } else {
+                slot = max(0, initslot - m[i]);
+                
+            }
+            initslot = slot;
+        }
+        
+        int res = initslot + tasks.size();
+        return res;
+    }
+};
+
+
+
+class Solution {
+public:
     class taskCount{
     public:
         char t;
