@@ -42,4 +42,21 @@ public:
         
         return head.next;
     }
+    
+    
+    /*
+     For similar problem, merge K sorted array
+    */
+    // assume we have
+    vector<int>* merge(vector<int>* a, vctor<int>* b) {
+      // return one merged vector
+    }
+    
+    vector<int>* mergeKArray(vector<vector<int>*>& arrays) {
+        while(arrays.size()>1) {
+            arrays.push_back(merge(arrays[0], arrays[1]));
+            arrays.erase(arrays.begin(), arrays.begin()+1);
+        }
+        return arrays[0];
+    }
 };
